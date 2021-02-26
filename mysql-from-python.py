@@ -1,4 +1,5 @@
 import os
+import datetime
 import pymysql
 
 username = os.getenv('gitpod')
@@ -11,11 +12,10 @@ connection = pymysql.connect(host='localhost',
 
 try:
     # Run query
-    with connection.cursor() as cursor:
-        sql = 'SELECT * FROM Artist;'
-        cursor.execute(sql)
-        result = cursor.fetchall()
-        print(result)
+    with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+        cursor.execute(
+            '''CREATE TABLE IF NOT EXISTS
+            Friends(name char(20), age int, DOB datetime);''')
 finally:
     # Close connection
     connection.close()
